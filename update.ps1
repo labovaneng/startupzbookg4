@@ -28,7 +28,7 @@ function UpdateEncoder{
     else{
         Set-Location C:\Users\ENG\Downloads
     	[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-        Invoke-WebRequest -Uri https://github.com/mattiewae/update/raw/master/AdobePresets/Encoder_V35_16ch.exe -OutFile Encoder_V35_16ch.exe
+        Invoke-WebRequest -Uri https://github.com/labovaneng/coder/blob/master/Encoder_V35_16ch.exe -OutFile Encoder_V35_16ch.exe
     	Copy-Item Encoder_V35_16ch.exe C:\Users\ENG\Desktop
         Copy-Item Encoder_V35_16ch.exe 'C:\Users\ENG\Desktop\Admin Tools'
     	Copy-Item Encoder_V35_16ch.exe 'C:\encoder\'
@@ -55,7 +55,7 @@ function OT{
     else{
         try{
             [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-            Invoke-WebRequest -Uri https://github.com/mattiewae/update/raw/master/OT.zip -OutFile "OT.zip" -ErrorAction Stop
+            Invoke-WebRequest -Uri https://github.com/labovaneng/algemeenDocu/blob/master/OT.zip -OutFile "OT.zip" -ErrorAction Stop
             Move-Item "OT.zip" "C:\Users\ENG\Desktop\Allerlei nuttige dingen" -ErrorAction Stop
             Write-Host "OT gedownload"
 	        Log-Message "OT gedownload" | Out-File -Append "C:\Users\ENG\Desktop\Admin Tools\UpdateLog.txt"
@@ -69,52 +69,7 @@ function OT{
     }
 }
 
-function SettingsGUI{
-	Set-Location C:\Users\ENG\AppData\Local\Temp
-    
-    try{
-        Remove-Item "C:\Users\ENG\AppData\Local\Temp\LaadSettingsGUI.exe" -ErrorAction Ignore
-        Remove-Item "C:\Users\ENG\Desktop\LaadSettingsGUI.exe" -ErrorAction Ignore
-    }
-    catch{
-        $ErrorMessage = $_.Exception.Message
-        Log-Message $ErrorMessage | Out-File -Append "C:\Users\ENG\Desktop\Admin Tools\UpdateLog.txt"
-    }
 
-    $FunctionID = Log-Message "SettingsGUI" | Out-File -Append "C:\Users\ENG\Desktop\Admin Tools\UpdateLog.txt"
-	$SettingsGUI_TEMP = Test-Path "C:\Users\ENG\AppData\Local\Temp\LaadSettingsGUI_V2.exe"
-    $SettingsGUI_DESKTOP = Test-Path "C:\Users\ENG\Desktop\LaadSettingsGUI_V2.exe"
-
-	if($SettingsGUI_TEMP -eq $false){
-        try{
-            [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-            Invoke-WebRequest -Uri https://github.com/mattiewae/update/blob/master/AdobePresets/LaadSettingsGUI_V2.exe?raw=true -OutFile LaadSettingsGUI_V2.exe -ErrorAction Stop
-            Write-Host "GUI gedownload"
-        }
-        Catch{
-            $ErrorMessage = $_.Exception.Message
-            $FunctionID    
-            Log-Message $ErrorMessage | Out-File -Append "C:\Users\ENG\Desktop\Admin Tools\UpdateLog.txt"
-            }
-        }
-    elseif($SettingsGUI_DESKTOP -eq $false){
-         try{
-                Copy-Item LaadSettingsGUI_V2.exe -Destination C:\Users\ENG\desktop -ErrorAction Stop
-                $FunctionID  
-                Write-Host "Copy GUI naar Desktop"
-                Log-Message "Copy GUI naar Desktop" | Out-File -Append "C:\Users\ENG\Desktop\Admin Tools\UpdateLog.txt"
-            }
-            Catch{
-                $ErrorMessage = $_.Exception.Message
-                $FunctionID    
-                Log-Message $ErrorMessage | Out-File -Append "C:\Users\ENG\Desktop\Admin Tools\UpdateLog.txt"
-                }
-         }
-         Else{
-                Write-Host "GUI settings OK"
-                Log-Message "GUI settings OK" | Out-File -Append "C:\Users\ENG\Desktop\Admin Tools\UpdateLog.txt"
-         }
-}
 
 function ClearAdobeMediaCache{
 	$limit = (Get-Date).AddDays(-20)
